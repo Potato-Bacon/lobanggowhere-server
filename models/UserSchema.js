@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
     dateOfBirth: { type: String, required: true },
     avatar: { type: Number, default: 0 },
     infringement: { type: Number, default: 0 },
-    admin: { type: Boolean, required: true },
+    admin: { type: Boolean, default: false },
     watchList: [String],
   },
   { timestamps: true }
