@@ -60,21 +60,25 @@ app.get("/login", (req, res) => {
 });
 
 //* Search for deals by id
+//? No auth req
 app.get("/deals/:id", (req, res) => {
   res.send({ deals: "individual" });
 });
 
 //* Search for deals by search category
+//? No auth req
 app.get("/category", (req, res) => {
   res.send({ deals: "individual" });
 });
 
 //* Search for deals by name (query?)
+//? No auth req
 app.get("/search/:id", (req, res) => {
   res.send({ deals: "individual" });
 });
 
 //* Show personal account details
+//? No auth req (might not need an express route then?)
 app.get("/account", (req, res) => {
   res.send({ users: "individual" });
 });
@@ -90,11 +94,13 @@ app.delete("/account/:id", (req, res) => {
 });
 
 //* Search for user by id
+//? No auth req
 app.get("/account/:id", (req, res) => {
   res.send({ users: "individual" });
 });
 
 //*  Register User
+//? No Auth required - Remember to not copy entire object!
 app.post("/register", (req, res) => {
   res.send({ users: "individual" });
 });
