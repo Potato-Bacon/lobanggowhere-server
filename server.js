@@ -41,7 +41,7 @@ app.get("/category/seed", async (req, res) => {
   });
 });
 app.get("/", (req, res) => {
-  res.send({ test: "index route" });
+  res.send({ test: "hi route" });
 });
 
 app.post("/submission", (req, res) => {
