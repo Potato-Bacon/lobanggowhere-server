@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const Category = require("./models/CategorySchema");
+const accountsController = require("./controllers/LogsController");
 
 //configuration
 const PORT = process.env.PORT ?? 3000;
@@ -17,6 +18,7 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(cors());
+app.use("/account", accountsController);
 
 app.get("/category/seed", async (req, res) => {
   const newCategories = [
@@ -42,7 +44,6 @@ app.get("/category/seed", async (req, res) => {
 });
 
 //? Do not copy whole objects in for post/put - only the required fields (to prevent unauthorized editing of data)
-
 
 //* Test / Homepage - show popular deals default
 app.get("/", (req, res) => {
@@ -77,28 +78,6 @@ app.get("/search/:id", (req, res) => {
   res.send({ deals: "individual" });
 });
 
-//* Show personal account details
-//? No auth req (might not need an express route then?)
-app.get("/account", (req, res) => {
-  res.send({ users: "individual" });
-});
-
-//* Change account password (or other details maybe?) by id
-app.put("/account/:id", (req, res) => {
-  res.send({ users: "individual" });
-});
-
-//* Delete account by id
-app.delete("/account/:id", (req, res) => {
-  res.send({ users: "individual" });
-});
-
-//* Search for user by id
-//? No auth req
-app.get("/account/:id", (req, res) => {
-  res.send({ users: "individual" });
-});
-
 //*  Register User
 //? No Auth required - Remember to not copy entire object!
 app.post("/register", (req, res) => {
@@ -114,7 +93,6 @@ app.get("/admin", (req, res) => {
 app.put("/deals/:id", (req, res) => {
   res.send({ users: "individual" });
 });
-
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Express listing on ${PORT}`);
