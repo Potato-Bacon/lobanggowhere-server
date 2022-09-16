@@ -40,21 +40,75 @@ app.get("/category/seed", async (req, res) => {
     }
   });
 });
+
+//? Do not copy whole objects in for post/put - only the required fields (to prevent unauthorized editing of data)
+
+
+//* Test / Homepage - show popular deals default
 app.get("/", (req, res) => {
   res.send({ test: "hi route" });
 });
 
+//* Add a deal
 app.post("/submission", (req, res) => {
   res.send({ submit: "submission" });
 });
 
+//* Login - get JWT token & refresh token etc
+app.get("/login", (req, res) => {
+  res.send({ deals: "individual" });
+});
+
+//* Search for deals by id
 app.get("/deals/:id", (req, res) => {
   res.send({ deals: "individual" });
 });
 
-app.get("/events/:id", (req, res) => {
-  res.send({ events: "individual" });
+//* Search for deals by search category
+app.get("/category", (req, res) => {
+  res.send({ deals: "individual" });
 });
+
+//* Search for deals by name (query?)
+app.get("/search/:id", (req, res) => {
+  res.send({ deals: "individual" });
+});
+
+//* Show personal account details
+app.get("/account", (req, res) => {
+  res.send({ users: "individual" });
+});
+
+//* Change account password (or other details maybe?) by id
+app.put("/account/:id", (req, res) => {
+  res.send({ users: "individual" });
+});
+
+//* Delete account by id
+app.delete("/account/:id", (req, res) => {
+  res.send({ users: "individual" });
+});
+
+//* Search for user by id
+app.get("/account/:id", (req, res) => {
+  res.send({ users: "individual" });
+});
+
+//*  Register User
+app.post("/register", (req, res) => {
+  res.send({ users: "individual" });
+});
+
+//* Admin page (secret page) - Verify admin on user in database
+app.get("/admin", (req, res) => {
+  res.send({ users: "individual" });
+});
+
+//* User edit post by id (verify user is owner)
+app.put("/deals/:id", (req, res) => {
+  res.send({ users: "individual" });
+});
+
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Express listing on ${PORT}`);
