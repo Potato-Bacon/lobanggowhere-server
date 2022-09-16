@@ -3,7 +3,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const Category = require("./models/CategorySchema");
-const accountsController = require("./controllers/LogsController");
+const accountsController = require("./controllers/AccountsController");
+const adminsController = require("./controllers/AdminsController");
+const categoriesController = require("./controllers/CategoriesController");
+const dealsController = require("./controllers/DealsController");
+const loginController = require("./controllers/LoginController");
+const registerController = require("./controllers/RegisterController");
+const searchesController = require("./controllers/SearchesController");
+const submissionsController = require("./controllers/SubmissionsController");
 
 //configuration
 const PORT = process.env.PORT ?? 3000;
@@ -19,6 +26,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use("/account", accountsController);
+app.use("admin", adminsController);
+app.use("/category", categoriesController);
+app.use("/deals", dealsController);
+app.use("/login", loginController);
+app.use("/register", registerController);
+app.use("/search", searchesController);
+app.use("/submission", submissionsController);
 
 app.get("/category/seed", async (req, res) => {
   const newCategories = [
@@ -48,50 +62,6 @@ app.get("/category/seed", async (req, res) => {
 //* Test / Homepage - show popular deals default
 app.get("/", (req, res) => {
   res.send({ test: "hi route" });
-});
-
-//* Add a deal
-app.post("/submission", (req, res) => {
-  res.send({ submit: "submission" });
-});
-
-//* Login - get JWT token & refresh token etc
-app.get("/login", (req, res) => {
-  res.send({ deals: "individual" });
-});
-
-//* Search for deals by id
-//? No auth req
-app.get("/deals/:id", (req, res) => {
-  res.send({ deals: "individual" });
-});
-
-//* Search for deals by search category
-//? No auth req
-app.get("/category", (req, res) => {
-  res.send({ deals: "individual" });
-});
-
-//* Search for deals by name (query?)
-//? No auth req
-app.get("/search/:id", (req, res) => {
-  res.send({ deals: "individual" });
-});
-
-//*  Register User
-//? No Auth required - Remember to not copy entire object!
-app.post("/register", (req, res) => {
-  res.send({ users: "individual" });
-});
-
-//* Admin page (secret page) - Verify admin on user in database
-app.get("/admin", (req, res) => {
-  res.send({ users: "individual" });
-});
-
-//* User edit post by id (verify user is owner)
-app.put("/deals/:id", (req, res) => {
-  res.send({ users: "individual" });
 });
 
 app.listen(PORT, "0.0.0.0", () => {
