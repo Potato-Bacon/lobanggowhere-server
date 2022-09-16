@@ -9,9 +9,9 @@ router.post("/", async (req, res) => {
   try {
     const { userName } = newUser;
     const result = await User.find({ userName });
-    console.log(userName);
+    console.log(result);
     if (result.length > 0) {
-      res.status(500).send({ msg: "Please choose a unique username" });
+      res.status(500).send({ msg: "Please use a unique username" });
     } else {
       User.create(newUser, (error, user) => {
         res.status(201).send(user);
