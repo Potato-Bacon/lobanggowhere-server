@@ -26,7 +26,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use("/account", accountsController);
-app.use("admin", adminsController);
+app.use("/admin", adminsController);
 app.use("/category", categoriesController);
 app.use("/deals", dealsController);
 app.use("/login", loginController);
