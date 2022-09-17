@@ -7,8 +7,7 @@ const router = express.Router();
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const deal = await Deals.findById(id).populate("category");
-  console.log(typeof id);
-  res.send(deal);
+  res.status(201).send(deal);
 });
 
 //* User edit post by id (verify user is owner)

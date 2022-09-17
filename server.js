@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
+const Deals = require("./models/DealsSchema");
 const Category = require("./models/CategorySchema");
 const accountsController = require("./controllers/AccountsController");
 const adminsController = require("./controllers/AdminsController");
@@ -62,8 +63,13 @@ app.get("/category/seed", async (req, res) => {
 //? Do not copy whole objects in for post/put - only the required fields (to prevent unauthorized editing of data)
 
 //* Test / Homepage - show popular deals default
-app.get("/", (req, res) => {
-  res.send({ test: "hi route" });
+app.get("/", async (req, res) => {
+  try {
+    const allDeals = await Deals.find();
+    res.status(201).send(allDeals);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
 });
 
 app.listen(PORT, "0.0.0.0", () => {
