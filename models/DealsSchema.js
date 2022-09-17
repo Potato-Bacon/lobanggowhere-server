@@ -12,7 +12,7 @@ const dealsSchema = new Schema(
     },
     description: { type: String, required: true },
     vendor: { type: String, required: true },
-    onlineAndOrStore: String,
+    onlineAndOrStore: [String],
     url: { type: String, required: true },
     address: String,
     dealsCategory: String,
