@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const Deals = require("./models/DealsSchema");
 const Category = require("./models/CategorySchema");
@@ -27,7 +26,7 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(cors());
-app.use(fileUpload());
+
 app.use("/account", accountsController);
 app.use("/admin", adminsController);
 app.use("/category", categoriesController);
