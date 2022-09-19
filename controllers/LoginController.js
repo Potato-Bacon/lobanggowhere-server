@@ -16,18 +16,19 @@ const bcrypt = require("bcrypt");
 //* Clientside: https://www.youtube.com/watch?v=nI8PYZNFtac&t=874s
 
 //* Login - get JWT token & refresh token etc
-router.get("/", async (req, res) => {
-  const { user, pwd } = req.body;
-  if (!user || !pwd)
+router.post("/", async (req, res) => {
+  const { userName, password } = req.body;
+  if (!userName || !password)
     return res
       .status(400)
       .json({ message: "Username and password are required." });
-  const foundUser = await User.findOne({ userName: user }).exec();
+  const foundUser = await User.findOne({ userName: userName }).exec();
   if (!foundUser) return res.sendStatus(401); //Unauthorized
   //* Evaluate password
-  const match = await bcrypt.compare(pwd, foundUser.password);
+  const match = await bcrypt.compare(password, foundUser.password);
   if (match) {
     // const roles = Object.values(foundUser.roles).filter(Boolean);
+    const roles = foundUser.roles;
     //* Create JWTs
     const accessToken = jwt.sign(
       {
@@ -35,7 +36,7 @@ router.get("/", async (req, res) => {
         user: {
           userName: foundUser.userName,
           submissions: foundUser.submissions,
-          roles: foundUser.roles,
+          roles: roles,
           likes: foundUser.likes,
           email: foundUser.email,
           dateOfBirth: foundUser.dateOfBirth,
