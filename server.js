@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const corsOptions = require("./config/corsOptions");
 const Deals = require("./models/DealsSchema");
 const Category = require("./models/CategorySchema");
 const accountsController = require("./controllers/AccountsController");
@@ -12,6 +13,7 @@ const loginController = require("./controllers/LoginController");
 const registerController = require("./controllers/RegisterController");
 const searchesController = require("./controllers/SearchesController");
 const submissionsController = require("./controllers/SubmissionsController");
+const handleRefreshToken = require("./controllers/handleRefreshToken");
 
 //configuration
 const PORT = process.env.PORT ?? 3000;
@@ -24,9 +26,8 @@ mongoose.connection.once("open", () => {
 const app = express();
 
 //middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
-
 
 app.use("/account", accountsController);
 app.use("/admin", adminsController);
@@ -36,6 +37,7 @@ app.use("/login", loginController);
 app.use("/register", registerController);
 app.use("/search", searchesController);
 app.use("/submission", submissionsController);
+app.use("/refresh", handleRefreshToken);
 
 app.get("/category/seed", async (req, res) => {
   const newCategories = [
