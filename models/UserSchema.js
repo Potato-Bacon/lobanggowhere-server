@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
     infringement: { type: Number, default: 0 },
     roles: { type: [String], default: ["User"] }, //* Replacing admin boolean, with string array of roles (eg: 'User', 'Admin')
     watchList: [String],
-    refreshToken: String,
+    refreshToken: { type: String },
   },
   { timestamps: true }
 );

@@ -14,6 +14,7 @@ const registerController = require("./controllers/RegisterController");
 const searchesController = require("./controllers/SearchesController");
 const submissionsController = require("./controllers/SubmissionsController");
 const handleRefreshToken = require("./controllers/handleRefreshToken");
+const cookieParser = require("cookie-parser");
 
 //configuration
 const PORT = process.env.PORT ?? 3000;
@@ -28,6 +29,7 @@ const app = express();
 //middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/account", accountsController);
 app.use("/admin", adminsController);

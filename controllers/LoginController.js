@@ -28,12 +28,11 @@ router.post("/", async (req, res) => {
   const match = await bcrypt.compare(password, foundUser.password);
   if (match) {
     // const roles = Object.values(foundUser.roles).filter(Boolean);
-    const roles = foundUser.roles;
     //* Not sending password to be stored client-side, for security reasons
     const userData = {
       userName: foundUser.userName,
       submissions: foundUser.submissions,
-      roles: roles,
+      roles: foundUser.roles,
       likes: foundUser.likes,
       email: foundUser.email,
       dateOfBirth: foundUser.dateOfBirth,
@@ -59,7 +58,6 @@ router.post("/", async (req, res) => {
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
     console.log(result);
-    console.log(roles);
 
     //* Creates Secure Cookie with refresh token
     res.status(200).cookie("jwt", refreshToken, {
@@ -72,7 +70,7 @@ router.post("/", async (req, res) => {
     console.log(userData);
     console.log(accessToken);
     console.log(refreshToken);
-    //* Send authorization roles and access token to user
+    //* Send authorized user data and access token to user
     res.status(200).json({ accessToken, user: userData });
     // res.json({ text: "Hello" });
   } else {
