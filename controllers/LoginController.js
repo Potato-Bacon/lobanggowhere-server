@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
     console.log(roles);
 
     //* Creates Secure Cookie with refresh token
-    res.cookie("jwt", refreshToken, {
+    res.status(200).cookie("jwt", refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: "None",
@@ -73,7 +73,7 @@ router.post("/", async (req, res) => {
     console.log(accessToken);
     console.log(refreshToken);
     //* Send authorization roles and access token to user
-    res.json({ accessToken, user: userData });
+    res.status(200).json({ accessToken, user: userData });
     // res.json({ text: "Hello" });
   } else {
     res.sendStatus(401);

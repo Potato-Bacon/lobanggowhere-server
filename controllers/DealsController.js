@@ -12,7 +12,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //* User edit post by id (verify user is owner)
-//watchList
+//watchList find user and add deal to watchList
 router.put("/addtowatchlist/:id", async (req, res) => {
   const { id } = req.params;
   const body = req.body;
@@ -30,19 +30,49 @@ router.put("/addtowatchlist/:id", async (req, res) => {
   }
 });
 
+//watchList find user and remove deal to watchList
 router.put("/removefromwatchlist/:id", async (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  console.log(body, "body");
-  console.log(typeof id, "id");
-
   try {
-    const removeToWatchList = await User.findOneAndUpdate(
+    const removeFromWatchList = await User.findOneAndUpdate(
       { userName: id },
       { $pull: { watchList: { $in: body } } }
     );
-    console.log("remove", removeToWatchList);
-    res.status(201).send(removeToWatchList);
+    res.status(201).send(removeFromWatchList);
+  } catch (error) {
+    res.status(400).send({ error });
+  }
+});
+
+//add like
+router.put("/addlike/:id", async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  try {
+    const addLike = await User.findByIdAndUpdate(
+      id,
+      { $addToSet: { likes: body } },
+      {
+        new: true,
+      }
+    );
+    res.status(201).send(addLike);
+  } catch (error) {
+    res.status(400).send({ error });
+  }
+});
+
+//remove like
+router.put("/removelike/:id", async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  try {
+    const removeLike = await User.findOneAndUpdate(
+      { userName: id },
+      { $pull: { watchList: { $in: body } } }
+    );
+    res.status(201).send(removeLike);
   } catch (error) {
     res.status(400).send({ error });
   }
