@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     likes: [String],
     email: { type: String, required: true },
     dateOfBirth: { type: String, required: true },
-    avatar: { type: Number, default: 0 },
+    avatar: { type: [String], default: "0" },
     infringement: { type: Number, default: 0 },
     roles: { type: [String], default: ["User"] }, //* Replacing admin boolean, with string array of roles (eg: 'User', 'Admin')
     watchList: [String],
