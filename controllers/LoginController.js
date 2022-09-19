@@ -29,25 +29,27 @@ router.post("/", async (req, res) => {
   if (match) {
     // const roles = Object.values(foundUser.roles).filter(Boolean);
     const roles = foundUser.roles;
+    //* Not sending password to be stored client-side, for security reasons
+    const userData = {
+      userName: foundUser.userName,
+      submissions: foundUser.submissions,
+      roles: roles,
+      likes: foundUser.likes,
+      email: foundUser.email,
+      dateOfBirth: foundUser.dateOfBirth,
+      avatar: foundUser.avatar,
+      infringement: foundUser.infringement,
+      watchList: foundUser.watchList,
+    };
     //* Create JWTs
-    const accessToken = jwt.sign(
-      {
-        //* Not sending password to be stored client-side, for security reasons
-        user: {
-          userName: foundUser.userName,
-          submissions: foundUser.submissions,
-          roles: roles,
-          likes: foundUser.likes,
-          email: foundUser.email,
-          dateOfBirth: foundUser.dateOfBirth,
-          avatar: foundUser.avatar,
-          infringement: foundUser.infringement,
-          watchList: foundUser.watchList,
-        },
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
-    );
+    const userobj = {
+      userName: foundUser.userName,
+    };
+
+    const accessToken = jwt.sign(userobj, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "10s",
+    });
+
     const refreshToken = jwt.sign(
       { username: foundUser.userName },
       process.env.REFRESH_TOKEN_SECRET,
@@ -67,8 +69,12 @@ router.post("/", async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
+    console.log(userData);
+    console.log(accessToken);
+    console.log(refreshToken);
     //* Send authorization roles and access token to user
-    res.json({ roles, accessToken });
+    res.json({ accessToken, user: userData });
+    // res.json({ text: "Hello" });
   } else {
     res.sendStatus(401);
   }
