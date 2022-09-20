@@ -14,6 +14,7 @@ const registerController = require("./controllers/RegisterController");
 const searchesController = require("./controllers/SearchesController");
 const submissionsController = require("./controllers/SubmissionsController");
 const handleRefreshToken = require("./controllers/handleRefreshToken");
+const handleAuthCheck = require("./controllers/handleAuthCheck");
 const cookieParser = require("cookie-parser");
 
 //configuration
@@ -40,6 +41,7 @@ app.use("/register", registerController);
 app.use("/search", searchesController);
 app.use("/submission", submissionsController);
 app.use("/refresh", handleRefreshToken);
+app.use("/authcheck", handleAuthCheck);
 
 app.get("/category/seed", async (req, res) => {
   const newCategories = [
@@ -69,13 +71,26 @@ app.get("/category/seed", async (req, res) => {
 //* Test / Homepage - show popular deals default
 app.get("/", async (req, res) => {
   try {
-    const allDeals = await Deals.find();
+    const allDeals = await Deals.find({ submittedStatus: "Approve" });
     res.status(201).send(allDeals);
   } catch (error) {
     res.status(500).send({ error });
   }
 });
 
-app.listen(PORT, "0.0.0.0", () => {
+app.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const searchDeal = await Deals.find({
+      title: { $regex: id },
+      submittedStatus: "Approve",
+    });
+    res.status(201).send(searchDeal);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
+
+app.listen(PORT, () => {
   console.log(`Express listing on ${PORT}`);
 });
