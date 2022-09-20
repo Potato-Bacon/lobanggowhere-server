@@ -16,6 +16,7 @@ const submissionsController = require("./controllers/SubmissionsController");
 const handleRefreshToken = require("./controllers/handleRefreshToken");
 const handleAuthCheck = require("./controllers/handleAuthCheck");
 const cookieParser = require("cookie-parser");
+const User = require("./models/UserSchema");
 
 //configuration
 const PORT = process.env.PORT ?? 3000;
@@ -82,10 +83,28 @@ app.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const searchDeal = await Deals.find({
-      title: { $regex: id },
+      title: { $regex: id, $options: "i" },
+
       submittedStatus: "Approve",
     });
     res.status(201).send(searchDeal);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
+
+app.get("/profile/:username", async (req, res) => {
+  const { username } = req.params;
+  console.log(username, "test");
+  try {
+    const publicProfile = await Deals.find(
+      {
+        submittedBy: username,
+        submittedStatus: "Approve",
+      },
+      { img: 1, title: 1, submittedBy: 1 }
+    );
+    res.status(201).send(publicProfile);
   } catch (error) {
     res.status(500).send({ error });
   }
