@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/UserSchema");
+const Deals = require("../models/DealsSchema");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
@@ -39,6 +40,12 @@ router.put("/deals", async (req, res) => {
     { new: true }
   ).exec();
   res.status(200).send(updateUserDeals);
+});
+
+router.post("/submitteddeals/:id", async (req, res) => {
+  const { id } = req.body;
+  const userSubmittedDeals = await Deals.find({ _id: { $in: id } });
+  console.log(userSubmittedDeals, "userSubmittedDeals - backend");
 });
 
 //* Delete account by id
