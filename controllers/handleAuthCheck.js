@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-import authCheck from "../component/authCheck";
+// import authCheck from "../component/authCheck";
+const authCheck = require("../component/authCheck");
+const User = require("../models/UserSchema");
 
 //* /authcheck call
 router.get("/", authCheck, async (req, res) => {
