@@ -46,11 +46,11 @@ router.post("/", async (req, res) => {
     };
 
     const accessToken = jwt.sign(userobj, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "300s",
+      expiresIn: "10s",
     });
 
     const refreshToken = jwt.sign(
-      { username: foundUser.userName },
+      { userName: foundUser.userName },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
