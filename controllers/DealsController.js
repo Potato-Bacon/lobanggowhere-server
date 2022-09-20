@@ -45,17 +45,16 @@ router.put("/removefromwatchlist/:id", async (req, res) => {
   }
 });
 
-//add like
+//add find user and add deal to like
 router.put("/addlike/:id", async (req, res) => {
   const { id } = req.params;
   const body = req.body;
+  console.log(body);
+  console.log("id", id);
   try {
-    const addLike = await User.findByIdAndUpdate(
-      id,
-      { $addToSet: { likes: body } },
-      {
-        new: true,
-      }
+    const addLike = await User.findOneAndUpdate(
+      { userName: id },
+      { $addToSet: { likes: body } }
     );
     res.status(201).send(addLike);
   } catch (error) {
@@ -63,18 +62,51 @@ router.put("/addlike/:id", async (req, res) => {
   }
 });
 
-//remove like
+//remove like from the like
 router.put("/removelike/:id", async (req, res) => {
   const { id } = req.params;
   const body = req.body;
   try {
     const removeLike = await User.findOneAndUpdate(
       { userName: id },
-      { $pull: { watchList: { $in: body } } }
+      { $pull: { likes: { $in: body } } }
     );
     res.status(201).send(removeLike);
   } catch (error) {
     res.status(400).send({ error });
   }
 });
+
+//like on deal counter
+router.put("/addcount/:id", async (req, res) => {
+  const { id } = req.params;
+  const name = req.body;
+  try {
+    const addLike = await Deals.findByIdAndUpdate(
+      id,
+      { $addToSet: { likes: name } },
+      { new: true }
+    );
+    res.status(201).send(addLike);
+  } catch (error) {
+    res.status(400).send({ error });
+  }
+});
+
+//remove like on deal counter
+router.put("/subtractcount/:id", async (req, res) => {
+  const { id } = req.params;
+  const name = req.body;
+  try {
+    const subtractLike = await Deals.findByIdAndUpdate(
+      id,
+      { $pull: { likes: { $in: name } } },
+      { new: true }
+    );
+    res.status(201).send(subtractLike);
+  } catch (error) {
+    res.status(400).send({ error });
+  }
+});
+
 module.exports = router;
