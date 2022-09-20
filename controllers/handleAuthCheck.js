@@ -5,7 +5,7 @@ const authCheck = require("../component/authCheck");
 const User = require("../models/UserSchema");
 
 //* /authcheck call
-router.get("/", authCheck, async (req, res) => {
+router.post("/", authCheck, async (req, res) => {
   const userName = req.body.userName;
   const foundUser = await User.findOne({ userName: userName }).exec();
   const userData = {

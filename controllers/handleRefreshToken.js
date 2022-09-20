@@ -22,10 +22,10 @@ router.get("/", async (req, res) => {
 
   // evaluate jwt
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-    if (err || foundUser.userName !== decoded.username) {
+    if (err || foundUser.userName !== decoded.userName) {
       console.log("Wrong user detected from token");
       console.log(
-        `Found user: ${foundUser.userName} and decoded user: ${decoded.username}`
+        `Found user: ${foundUser.userName} and decoded user: ${decoded.userName}`
       );
       return res
         .status(403)
@@ -45,9 +45,7 @@ router.get("/", async (req, res) => {
     // const roles = Object.values(foundUser.roles);
     const accessToken = jwt.sign(
       {
-        UserInfo: {
-          userName: decoded.userName,
-        },
+        userName: decoded.userName,
       },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "10s" }
