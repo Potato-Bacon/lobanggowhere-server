@@ -5,13 +5,19 @@ const jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(401);
+  if (!cookies?.jwt)
+    return res
+      .status(401)
+      .send({ status: 401, payload: "Refresh token missing" });
   const refreshToken = cookies.jwt;
   console.log(`Refresh token returned: ${refreshToken}`);
 
   const foundUser = await User.findOne({ refreshToken }).exec();
   //Forbidden
-  if (!foundUser) return res.sendStatus(403);
+  if (!foundUser)
+    return res
+      .status(403)
+      .send({ status: 403, payload: "Missing username verification" });
   console.log(foundUser);
 
   // evaluate jwt
@@ -21,7 +27,9 @@ router.get("/", async (req, res) => {
       console.log(
         `Found user: ${foundUser.userName} and decoded user: ${decoded.username}`
       );
-      return res.sendStatus(403);
+      return res
+        .status(403)
+        .send({ status: 403, payload: "Access token does not match user" });
     }
     const userData = {
       userName: foundUser.userName,
@@ -44,7 +52,9 @@ router.get("/", async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "10s" }
     );
-    res.status(200).json({ accessToken, user: userData });
+    res
+      .status(200)
+      .send({ status: 200, payload: { accessToken, user: userData } });
   });
 });
 module.exports = router;

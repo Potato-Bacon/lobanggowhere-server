@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
   if (!userName || !password)
     return res
       .status(400)
-      .json({ message: "Username and password are required." });
+      .send({ status: 400, payload: "Username and password are required." });
   const foundUser = await User.findOne({ userName: userName }).exec();
   if (!foundUser) return res.sendStatus(401); //Unauthorized
   //* Evaluate password
@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
     };
 
     const accessToken = jwt.sign(userobj, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "10s",
+      expiresIn: "300s",
     });
 
     const refreshToken = jwt.sign(
@@ -71,7 +71,9 @@ router.post("/", async (req, res) => {
     console.log(accessToken);
     console.log(refreshToken);
     //* Send authorized user data and access token to user
-    res.status(200).json({ accessToken, user: userData });
+    res
+      .status(200)
+      .send({ status: 200, payload: { accessToken, user: userData } });
     // res.json({ text: "Hello" });
   } else {
     res.sendStatus(401);

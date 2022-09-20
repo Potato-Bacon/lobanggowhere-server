@@ -14,6 +14,7 @@ const registerController = require("./controllers/RegisterController");
 const searchesController = require("./controllers/SearchesController");
 const submissionsController = require("./controllers/SubmissionsController");
 const handleRefreshToken = require("./controllers/handleRefreshToken");
+const handleAuthCheck = require("./controllers/handleAuthCheck")
 const cookieParser = require("cookie-parser");
 
 //configuration
@@ -40,6 +41,7 @@ app.use("/register", registerController);
 app.use("/search", searchesController);
 app.use("/submission", submissionsController);
 app.use("/refresh", handleRefreshToken);
+app.use("/authcheck", handleAuthCheck);
 
 app.get("/category/seed", async (req, res) => {
   const newCategories = [
