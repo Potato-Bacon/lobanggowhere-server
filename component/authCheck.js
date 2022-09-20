@@ -3,11 +3,11 @@ const User = require("../models/UserSchema");
 
 const authCheck = async (req, res, next) => {
   const token = req.body?.accessToken;
+  console.log(`Token: ${token}`);
   if (!token)
     return res
       .status(401)
       .send({ status: 401, payload: "Access token missing" });
-  console.log(`Access token received: ${token}`);
   const userName = req.body?.userName;
   const foundUser = await User.findOne({ userName: userName }).exec();
   //Forbidden
@@ -19,17 +19,19 @@ const authCheck = async (req, res, next) => {
 
   // evaluate jwt
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err || foundUser.userName !== decoded.username) {
+    console.log(`Decoded: ${decoded}`);
+    console.log(
+      `Found user: ${foundUser?.userName} and decoded user: ${decoded?.userName}`
+    );
+    if (err || foundUser.userName !== decoded.userName) {
       console.log("Wrong user detected from token");
-      console.log(
-        `Found user: ${foundUser.userName} and decoded user: ${decoded.username}`
-      );
+      console.log("Got here");
       return res
         .status(403)
         .send({ status: 403, payload: "Access token does not match user" });
+    } else {
+      next();
     }
-
-    next();
   });
 };
 
