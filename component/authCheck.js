@@ -8,7 +8,7 @@ const authCheck = async (req, res, next) => {
   const userName = req.body?.userName;
   const foundUser = await User.findOne({ userName: userName }).exec();
   //Forbidden
-  if (!foundUser) return res.status(403).send({status: 403, payload: "Missing username verification"});
+  if (!foundUser) return res.status(401).send({status: 401, payload: "Missing username verification"});
   console.log(foundUser);
 
   // evaluate jwt
