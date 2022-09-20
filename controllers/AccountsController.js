@@ -42,10 +42,19 @@ router.put("/deals", async (req, res) => {
   res.status(200).send(updateUserDeals);
 });
 
-router.post("/submitteddeals/:id", async (req, res) => {
-  const { id } = req.body;
-  const userSubmittedDeals = await Deals.find({ _id: { $in: id } });
-  console.log(userSubmittedDeals, "userSubmittedDeals - backend");
+//retrieve user submissions
+router.post("/submitteddeals", async (req, res) => {
+  const submissions = req.body;
+  const userSubmittedDeals = await Deals.find({ _id: { $in: submissions } });
+  res.status(200).send(userSubmittedDeals);
+});
+
+//
+//retrieve user submissions
+router.post("/watchlist", async (req, res) => {
+  const watchList = req.body;
+  const userWatchList = await Deals.find({ _id: { $in: watchList } });
+  res.status(200).send(userWatchList);
 });
 
 //* Delete account by id
