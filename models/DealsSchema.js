@@ -21,7 +21,7 @@ const dealsSchema = new Schema(
     custom: String,
     startDate: Date,
     endDate: Date,
-    likes: { type: Number, default: 0 },
+    likes: [String],
     submittedStatus: { type: String, default: "pending" },
     submittedBy: { type: String, required: true },
     moderatorComments: String,
