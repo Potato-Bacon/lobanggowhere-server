@@ -48,7 +48,7 @@ router.get("/", async (req, res) => {
         userName: decoded.userName,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
+      { expiresIn: "300s" }
     );
     res
       .status(200)

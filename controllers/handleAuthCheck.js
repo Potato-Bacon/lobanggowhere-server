@@ -1,23 +1,22 @@
 const express = require("express");
 const router = express.Router();
-// import authCheck from "../component/authCheck";
 const authCheck = require("../component/authCheck");
-const User = require("../models/UserSchema");
+// const User = require("../models/UserSchema");
 
 //* /authcheck call
 router.post("/", authCheck, async (req, res) => {
-  const userName = req.body.userName;
-  const foundUser = await User.findOne({ userName: userName }).exec();
+  // const userName = req.body.userName;
+  // const foundUser = await User.findOne({ userName: userName }).exec();
   const userData = {
-    userName: foundUser.userName,
-    submissions: foundUser.submissions,
-    roles: foundUser.roles,
-    likes: foundUser.likes,
-    email: foundUser.email,
-    dateOfBirth: foundUser.dateOfBirth,
-    avatar: foundUser.avatar,
-    infringement: foundUser.infringement,
-    watchList: foundUser.watchList,
+    userName: req.body.user.userName,
+    submissions: req.body.user.submissions,
+    roles: req.body.user.roles,
+    likes: req.body.user.likes,
+    email: req.body.user.email,
+    dateOfBirth: req.body.user.dateOfBirth,
+    avatar: req.body.user.avatar,
+    infringement: req.body.user.infringement,
+    watchList: req.body.user.watchList,
   };
 
   res.status(200).json({ status: 200, payload: { user: userData } });

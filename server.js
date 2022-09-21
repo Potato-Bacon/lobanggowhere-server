@@ -16,7 +16,7 @@ const submissionsController = require("./controllers/SubmissionsController");
 const handleRefreshToken = require("./controllers/handleRefreshToken");
 const handleAuthCheck = require("./controllers/handleAuthCheck");
 const cookieParser = require("cookie-parser");
-const User = require("./models/UserSchema");
+const handleLogout = require("./controllers/handleLogout");
 
 //configuration
 const PORT = process.env.PORT ?? 3000;
@@ -43,6 +43,7 @@ app.use("/search", searchesController);
 app.use("/submission", submissionsController);
 app.use("/refresh", handleRefreshToken);
 app.use("/authcheck", handleAuthCheck);
+app.use("/logout", handleLogout);
 
 app.get("/category/seed", async (req, res) => {
   const newCategories = [

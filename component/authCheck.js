@@ -30,6 +30,7 @@ const authCheck = async (req, res, next) => {
         .status(403)
         .send({ status: 403, payload: "Access token does not match user" });
     } else {
+      req.body.user = foundUser;
       next();
     }
   });
