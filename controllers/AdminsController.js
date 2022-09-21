@@ -18,6 +18,28 @@ router.get("/", async (req, res) => {
     res.status(500).send({ error });
   }
 });
+//find what i wnt delete
+router.get("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deal = await Deals.find({
+      title: { $regex: id, $options: "i" },
+    }).populate("category");
+    res.status(201).send(deal);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
+//delete
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deal = await Deals.findByIdAndDelete(id);
+    res.status(201).send(deal);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
