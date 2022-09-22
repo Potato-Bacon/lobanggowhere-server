@@ -2,17 +2,17 @@ const allowedOrigins = require("./allowedOrigins");
 
 const corsOptions = {
   credentials: true,
-  //   headers: {
-  //     "Access-Control-Allow-Origin": "*",
-  //     "Access-Control-Request-Headers": "*",
-  //   },
-    origin: (origin, callback) => {
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+  headers: [
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+  ],
+  origin: "*",
+  // origin: (origin, callback) => {
+  //   if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+  //     callback(null, true);
+  //   } else {
+  //     callback(new Error("Not allowed by CORS"));
+  //   }
+  // },
   optionsSuccessStatus: 200,
 };
 
