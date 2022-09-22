@@ -58,7 +58,7 @@ router.post("/", async (req, res) => {
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
     console.log(result);
-    res.setHeader("Access-Control-Allow-Origin", "https://lobanggowhere-client.vercel.app");
+    // res.setHeader("Access-Control-Allow-Origin", "https://lobanggowhere-client.vercel.app");
 
     //* Creates Secure Cookie with refresh token
     res.status(200).cookie("jwt", refreshToken, {
