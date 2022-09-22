@@ -58,6 +58,7 @@ router.post("/", async (req, res) => {
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
     console.log(result);
+    res.status(200).setHeader("Content-Type", "application/json");
 
     //* Creates Secure Cookie with refresh token
     res.status(200).cookie("jwt", refreshToken, {
