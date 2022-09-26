@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/UserSchema");
+const Deals = require("../models/DealsSchema");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
@@ -39,6 +40,33 @@ router.put("/deals", async (req, res) => {
     { new: true }
   ).exec();
   res.status(200).send(updateUserDeals);
+});
+
+//retrieve user submissions
+router.post("/submitteddeals", async (req, res) => {
+  const submissions = req.body;
+  const userSubmittedDeals = await Deals.find({ _id: { $in: submissions } });
+  console.log(userSubmittedDeals, "user test");
+  res.status(200).send(userSubmittedDeals);
+});
+
+//
+//retrieve user submissions
+router.post("/watchlist", async (req, res) => {
+  const watchList = req.body;
+  const userWatchList = await Deals.find({ _id: { $in: watchList } });
+  res.status(200).send(userWatchList);
+});
+
+//delete deal
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deal = await Deals.findByIdAndDelete(id);
+    res.status(201).send(deal);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
 });
 
 //* Delete account by id
