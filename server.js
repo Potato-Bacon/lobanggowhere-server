@@ -14,7 +14,7 @@ const registerController = require("./controllers/RegisterController");
 const searchesController = require("./controllers/SearchesController");
 const submissionsController = require("./controllers/SubmissionsController");
 const handleRefreshToken = require("./controllers/handleRefreshToken");
-const handleAuthCheck = require("./controllers/handleAuthCheck")
+const handleAuthCheck = require("./controllers/handleAuthCheck");
 const cookieParser = require("cookie-parser");
 
 //configuration
@@ -31,6 +31,8 @@ const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
+
+app.enable("trust proxy");
 
 app.use("/account", accountsController);
 app.use("/admin", adminsController);
